@@ -1,5 +1,10 @@
 # map-emplace
 
+![ci status](https://github.com/babiabeo/map-emplace/actions/workflows/ci.yml/badge.svg)
+[![codecov](https://codecov.io/gh/babiabeo/map-emplace/graph/badge.svg?token=K419Z9KMJ9)](https://codecov.io/gh/babiabeo/map-emplace)
+[![JSR](https://jsr.io/badges/@babia/map-emplace)](https://jsr.io/@babia/map-emplace)
+[![JSR Score](https://jsr.io/badges/@babia/map-emplace/score)](https://jsr.io/@babia/map-emplace)
+
 This package provides implementations of `Map.prototype.emplace` and
 `WeakMap.prototype.emplace` based on
 [`tc39/proposal-upsert`](https://github.com/tc39/proposal-upsert) specification.
