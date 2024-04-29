@@ -2,11 +2,11 @@
  * This package provides implementations of `Map.prototype.emplace`
  * and `WeakMap.prototype.emplace` which have been proposed in
  * https://github.com/tc39/proposal-upsert.
- * 
+ *
  * ## Examples
- * 
+ *
  * ### `emplaceMap`
- * 
+ *
  * ```ts
  * const map = new Map([["foo", 9]]);
  *
@@ -30,9 +30,9 @@
  *
  * console.log(map); // Map(2) { "foo": 27, "bar": 7 }
  * ```
- * 
+ *
  * ### `emplaceWeakMap`
- * 
+ *
  * ```ts
  * const map = new WeakMap<WeakKey, number>();
  * const o1 = {};
