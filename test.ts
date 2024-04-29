@@ -55,9 +55,9 @@ Deno.test("emplaceMap() throws if `key` does not exist but no `insert` handler i
 });
 
 Deno.test("emplaceWeakMap() inserts new value to map if key does not exist", () => {
-    const data = new WeakMap<symbol, string>();
-    const foo = Symbol("foo");
-    const one = Symbol("one");
+    const data = new WeakMap<object, string>();
+    const foo = { name: "foo" };
+    const one = { name: "one" };
 
     const fooValue = emplaceWeakMap(data, foo, {
         insert() {
