@@ -3,6 +3,65 @@
  * and `WeakMap.prototype.emplace` which have been proposed in
  * https://github.com/tc39/proposal-upsert.
  *
+ * ## Examples
+ *
+ * ### `emplaceMap`
+ *
+ * ```ts
+ * const map = new Map([["foo", 9]]);
+ *
+ * emplaceMap(map, "foo", {
+ *     insert() {
+ *         return 7;
+ *     },
+ *     update(oldValue) {
+ *         return oldValue * 3;
+ *     },
+ * });
+ *
+ * emplaceMap(map, "bar", {
+ *     insert() {
+ *         return 7;
+ *     },
+ *     update(oldValue) {
+ *         return oldValue * 3;
+ *     },
+ * });
+ *
+ * console.log(map); // Map(2) { "foo": 27, "bar": 7 }
+ * ```
+ *
+ * ### `emplaceWeakMap`
+ *
+ * ```ts
+ * const map = new WeakMap<WeakKey, number>();
+ * const o1 = {};
+ * const o2 = function () {};
+ *
+ * map.set(o1, 21);
+ *
+ * emplaceWeakMap(map, o1, {
+ *     insert() {
+ *         return 100;
+ *     },
+ *     update(oldValue) {
+ *         return oldValue + 50;
+ *     },
+ * });
+ *
+ * emplaceWeakMap(map, o2, {
+ *     insert() {
+ *         return 100;
+ *     },
+ *     update(oldValue) {
+ *         return oldValue + 50;
+ *     },
+ * });
+ *
+ * console.log(map.get(o1)); // 71
+ * console.log(map.get(o2)); // 100
+ * ```
+ *
  * @module
  */
 
@@ -28,7 +87,7 @@ export interface WeakMapEmplaceHandler<K extends WeakKey, V> {
  *
  * @param map The map to be modified.
  * @param key The given key.
- * @param handler Custom `update` and `insert` handler.
+ * @param handler Custom `update` and `insert` handlers.
  * @returns Returns the updated or inserted value.
  * @throws If `key` does not exist but no `insert` handler is provided.
  *
@@ -63,24 +122,28 @@ export function emplaceMap<K, V>(
     handler: MapEmplaceHandler<K, V> = {},
 ): V {
     if (map.has(key)) {
-        const value = map.get(key)!;
+        let value = map.get(key) as V;
 
         if (handler.update) {
-            map.set(key, handler.update(value, key, map));
-        }
-    } else {
-        if (!handler.insert) {
-            throw new Error(
-                `Key "${key}" does not exist in map but no "insert" handler is provided!`,
-            );
+            value = handler.update(value, key, map);
+            map.set(key, value);
         }
 
-        const inserted = handler.insert(key, map);
-        map.set(key, inserted);
+        return value;
     }
 
-    // The key now exists in the map so there is no "undefined" case.
-    return map.get(key) as V;
+    if (!handler.insert) {
+        throw new Error(
+            `Key "${
+                String(key)
+            }" does not exist in map but no "insert" handler is provided!`,
+        );
+    }
+
+    const inserted = handler.insert(key, map);
+    map.set(key, inserted);
+
+    return inserted;
 }
 
 /**
@@ -89,7 +152,7 @@ export function emplaceMap<K, V>(
  *
  * @param map The weak map to be modified.
  * @param key The given key.
- * @param handler Custom `update` and `insert` handler.
+ * @param handler Custom `update` and `insert` handlers.
  * @returns Returns the updated or inserted value.
  * @throws If `key` does not exist but no `insert` handler is provided.
  *
@@ -97,7 +160,7 @@ export function emplaceMap<K, V>(
  * ```ts
  * const map = new WeakMap<WeakKey, number>();
  * const o1 = {};
- * const o2 = Symbol("o2");
+ * const o2 = function () {};
  *
  * map.set(o1, 21);
  *
@@ -129,24 +192,26 @@ export function emplaceWeakMap<K extends WeakKey, V>(
     handler: WeakMapEmplaceHandler<K, V> = {},
 ): V {
     if (map.has(key)) {
-        const value = map.get(key)!;
+        let value = map.get(key) as V;
 
         if (handler.update) {
-            map.set(key, handler.update(value, key, map));
-        }
-    } else {
-        if (!handler.insert) {
-            throw new Error(
-                `Key "${
-                    String(key)
-                }" does not exist in map but no "insert" handler is provided!`,
-            );
+            value = handler.update(value, key, map);
+            map.set(key, value);
         }
 
-        const inserted = handler.insert(key, map);
-        map.set(key, inserted);
+        return value;
     }
 
-    // The key now exists in the map so there is no "undefined" case.
-    return map.get(key) as V;
+    if (!handler.insert) {
+        throw new Error(
+            `Key "${
+                String(key)
+            }" does not exist in map but no "insert" handler is provided!`,
+        );
+    }
+
+    const inserted = handler.insert(key, map);
+    map.set(key, inserted);
+
+    return inserted;
 }
