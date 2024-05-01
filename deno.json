@@ -14,7 +14,8 @@
         "exclude": [".github"]
     },
     "fmt": {
-        "indentWidth": 4
+        "indentWidth": 4,
+        "exclude": ["README.md"]
     },
     "imports": {
         "@cross/test": "jsr:@cross/test@^0.0.9",
