@@ -2,8 +2,8 @@
 
 [![ci status](https://github.com/babiabeo/map-emplace/actions/workflows/ci.yml/badge.svg)](https://github.com/babiabeo/map-emplace/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/babiabeo/map-emplace/graph/badge.svg?token=K419Z9KMJ9)](https://codecov.io/gh/babiabeo/map-emplace)
-[![JSR](https://jsr.io/badges/@babia/map-emplace)](https://jsr.io/@babia/map-emplace)
-[![JSR Score](https://jsr.io/badges/@babia/map-emplace/score)](https://jsr.io/@babia/map-emplace)
+[![JSR](https://jsr.io/badges/@polyfill/map-emplace)](https://jsr.io/@polyfill/map-emplace)
+[![JSR Score](https://jsr.io/badges/@polyfill/map-emplace/score)](https://jsr.io/@polyfill/map-emplace)
 
 Polyfill of `Map.prototype.emplace` and `WeakMap.prototype.emplace` for
 JavaScript based on
@@ -14,32 +14,32 @@ JavaScript based on
 ### Bun
 
 ```sh
-bunx jsr add @babia/map-emplace
+bunx jsr add @polyfill/map-emplace
 ```
 
 ### Deno
 
 ```sh
-deno add @babia/map-emplace
+deno add @polyfill/map-emplace
 ```
 
 or use import specifier:
 
 ```ts
-import { emplaceMap } from "jsr:@babia/map-emplace";
+import { emplaceMap } from "jsr:@polyfill/map-emplace";
 ```
 
 ### Node
 
 ```sh
 # npm
-npx jsr add @babia/map-emplace
+npx jsr add @polyfill/map-emplace
 
 # yarn
-yarn dlx jsr add @babia/map-emplace
+yarn dlx jsr add @polyfill/map-emplace
 
 # pnpm
-pnpm dlx jsr add @babia/map-emplace
+pnpm dlx jsr add @polyfill/map-emplace
 ```
 
 ## Why?
