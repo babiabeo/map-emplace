@@ -1,7 +1,8 @@
+import { test } from "@cross/test";
 import { assertEquals, assertThrows } from "@std/assert";
 import { emplaceMap, emplaceWeakMap } from "./mod.ts";
 
-Deno.test("emplaceMap() inserts new value to map if key does not exist", () => {
+test("emplaceMap() inserts new value to map if key does not exist", () => {
     const data = new Map<string, string>();
 
     const fooValue = emplaceMap(data, "foo", {
@@ -21,7 +22,7 @@ Deno.test("emplaceMap() inserts new value to map if key does not exist", () => {
     assertEquals(oneValue, "oneone");
 });
 
-Deno.test("emplaceMap() updates the existing value", () => {
+test("emplaceMap() updates the existing value", () => {
     const data = new Map<string, number>();
     data.set("a", 3);
     data.set("b", 5);
@@ -43,7 +44,7 @@ Deno.test("emplaceMap() updates the existing value", () => {
     assertEquals(bValue, 10);
 });
 
-Deno.test("emplaceMap() throws if `key` does not exist but no `insert` handler is provided", () => {
+test("emplaceMap() throws if `key` does not exist but no `insert` handler is provided", () => {
     const data = new Map<string, number>();
     assertThrows(() =>
         emplaceMap(data, "a", {
@@ -54,7 +55,7 @@ Deno.test("emplaceMap() throws if `key` does not exist but no `insert` handler i
     );
 });
 
-Deno.test("emplaceWeakMap() inserts new value to map if key does not exist", () => {
+test("emplaceWeakMap() inserts new value to map if key does not exist", () => {
     const data = new WeakMap<object, string>();
     const foo = { name: "foo" };
     const one = { name: "one" };
@@ -76,7 +77,7 @@ Deno.test("emplaceWeakMap() inserts new value to map if key does not exist", () 
     assertEquals(oneValue, "oneone");
 });
 
-Deno.test("emplaceWeakMap() updates the existing value", () => {
+test("emplaceWeakMap() updates the existing value", () => {
     const data = new WeakMap<object, number>();
     const a = {};
     const b = function () {};
@@ -101,7 +102,7 @@ Deno.test("emplaceWeakMap() updates the existing value", () => {
     assertEquals(bValue, 10);
 });
 
-Deno.test("emplaceWeakMap() throws if `key` does not exist but no `insert` handler is provided", () => {
+test("emplaceWeakMap() throws if `key` does not exist but no `insert` handler is provided", () => {
     const data = new WeakMap<object, number>();
     assertThrows(() =>
         emplaceWeakMap(data, {}, {

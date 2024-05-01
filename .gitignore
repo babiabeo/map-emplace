@@ -1,4 +1,9 @@
 .vscode
-deno.lock
 docs
 coverage
+node_modules
+
+deno.lock
+package.json
+package-lock.json
+.npmrc

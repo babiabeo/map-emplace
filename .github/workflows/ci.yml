@@ -10,7 +10,34 @@ permissions:
   contents: read
 
 jobs:
-  test:
+  bun-test:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        bun: [canary]
+        os:
+          - ubuntu-22.04
+          - windows-2022
+          - macOS-12
+
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: ${{ matrix.bun }}
+      
+      - name: Install packages
+        run: bunx jsr add @cross/test @std/assert
+
+      - name: Run tests canary
+        run: bun test
+
+  deno-test:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     strategy:
@@ -24,7 +51,7 @@ jobs:
 
     steps:
       - name: Setup repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Deno
         uses: denoland/setup-deno@v1
@@ -32,7 +59,7 @@ jobs:
           deno-version: ${{ matrix.deno }}
 
       - name: Run tests canary
-        run: deno task test
+        run: deno test --coverage
 
       - name: Generate lcov
         run: deno task cov:gen
@@ -45,11 +72,41 @@ jobs:
           name: ${{ matrix.os }}-${{ matrix.deno }}
           files: cov.lcov
 
+  node-test:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [latest]
+        os:
+          - ubuntu-22.04
+          - windows-2022
+          - macOS-12
+
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      
+      - name: Install packages
+        run: npx jsr add @cross/test @std/assert
+
+      - name: Add package.json
+        run: "echo '{ \"type\": \"module\" }' > package.json"
+
+      - name: Run tests canary
+        run: npx --yes tsx --test
+
   lint:
     runs-on: ubuntu-22.04
     steps:
       - name: Setup repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Deno
         uses: denoland/setup-deno@v1

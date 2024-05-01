@@ -5,16 +5,33 @@
 [![JSR](https://jsr.io/badges/@babia/map-emplace)](https://jsr.io/@babia/map-emplace)
 [![JSR Score](https://jsr.io/badges/@babia/map-emplace/score)](https://jsr.io/@babia/map-emplace)
 
-This package provides implementations of `Map.prototype.emplace` and
-`WeakMap.prototype.emplace` based on
+Polyfill of `Map.prototype.emplace` and `WeakMap.prototype.emplace` for
+JavaScript based on
 [`tc39/proposal-upsert`](https://github.com/tc39/proposal-upsert) specification.
 
 ## Install
 
-```sh
-# Deno
-deno add @babia/map-emplace
+### Bun
 
+```sh
+bunx jsr add @babia/map-emplace
+```
+
+### Deno
+
+```sh
+deno add @babia/map-emplace
+```
+
+or use import specifier:
+
+```ts
+import { emplaceMap } from "jsr:@babia/map-emplace";
+```
+
+### Node
+
+```sh
 # npm
 npx jsr add @babia/map-emplace
 
@@ -23,9 +40,6 @@ yarn dlx jsr add @babia/map-emplace
 
 # pnpm
 pnpm dlx jsr add @babia/map-emplace
-
-# Bun
-bunx jsr add @babia/map-emplace
 ```
 
 ## Why?
@@ -96,7 +110,9 @@ With `emplace`:
 
 ```ts
 emplaceMap(map, "foo", {
-    update: () => "foobar",
+    update() {
+        return "foobar";
+    },
 });
 ```
 

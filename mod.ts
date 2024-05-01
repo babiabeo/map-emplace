@@ -1,7 +1,6 @@
 /**
- * This package provides implementations of `Map.prototype.emplace`
- * and `WeakMap.prototype.emplace` which have been proposed in
- * https://github.com/tc39/proposal-upsert.
+ * Polyfill of `Map.prototype.emplace` and `WeakMap.prototype.emplace` for
+ * JavaScript which have been proposed in https://github.com/tc39/proposal-upsert.
  *
  * ## Examples
  *
