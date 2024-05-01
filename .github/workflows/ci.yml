@@ -78,7 +78,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [latest]
+        node: [latest]
         os:
           - ubuntu-22.04
           - windows-2022
@@ -87,6 +87,11 @@ jobs:
     steps:
       - name: Setup repo
         uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
       
       - name: Install packages
         run: npx jsr add @cross/test @std/assert
